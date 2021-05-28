@@ -15,27 +15,20 @@ export const replacePattern = async (p: {
     pattern: RegExp
     replacer: RegExp
     value: string
+    explicit?: string
     ignore?: string[]
-    explicit?: string[]
 }) => {
-    const { pattern, replacer, value, ignore = [], explicit = [] } = p
-    
-    const files = []
-
-    if (explicit != []) {
-        const files = explicit
-    } else {
-        const files = await glob('**', {
-            gitignore: true,
-            // expandDirectories: true,
-            filesOnly: true,
-            ignore: ['node_modules', ...ignore],
-        })
-    }   
-    
+    const { pattern, replacer, value, explicit='**', ignore = [] } = p
+    const files = await glob(explicit, {
+        gitignore: true,
+        //expandDirectories: true,
+        filesOnly: true,
+        ignore: ['node_modules', ...ignore],
+    })
     console.log('scanned files')
     const linesReplaced: LineReplaced[] = []
     files.forEach((pathName) => {
+        console.log(pathName)
         let found = false
         let currentLine = 0
         const lines = fs.readFileSync(pathName, 'utf8').toString().split('\n')

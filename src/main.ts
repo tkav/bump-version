@@ -21,12 +21,7 @@ async function run() {
             .split(',')
             .map((x) => x.trim())
             .filter(Boolean) || []
-    const explicit =
-        core
-            .getInput('explicit')
-            .split(',')
-            .map((x) => x.trim())
-            .filter(Boolean) || []
+    const explicit = core.getInput('explicit') || '**'
     const GITHUB_REF = process.env.GITHUB_REF || ''
     const branch =
         core.getInput('branch') ||
@@ -51,9 +46,6 @@ async function run() {
     console.log('writing new version file')
     fs.writeFileSync(versionPath, newVersion, 'utf8')
     let linesReplaced: LineReplaced[] = []
-    if (explicit != []) {
-        const explicit = [versionPath]
-    }
     if (prefix) {
         console.log(`replacing version patterns below [bump if ${prefix}]`)
         const pattern = new RegExp('\\[bump if ' + prefix + '\\]')
@@ -61,8 +53,8 @@ async function run() {
             pattern,
             replacer: versionRegex,
             value: newVersion,
-            ignore,
             explicit,
+            ignore,            
         })
         linesReplaced = res.linesReplaced
     } else {
