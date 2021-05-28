@@ -46,6 +46,9 @@ async function run() {
     console.log('writing new version file')
     fs.writeFileSync(versionPath, newVersion, 'utf8')
     let linesReplaced: LineReplaced[] = []
+    if (explicit != '**') {
+        const explicit = versionPath
+    }
     if (prefix) {
         console.log(`replacing version patterns below [bump if ${prefix}]`)
         const pattern = new RegExp('\\[bump if ' + prefix + '\\]')
@@ -53,7 +56,7 @@ async function run() {
             pattern,
             replacer: versionRegex,
             value: newVersion,
-            explicit,
+            explicit: explicit,
             ignore,            
         })
         linesReplaced = res.linesReplaced
@@ -63,7 +66,7 @@ async function run() {
             pattern: /\[bump\]/,
             replacer: versionRegex,
             value: newVersion,
-            explicit,
+            explicit: explicit,
             ignore,
         })
         linesReplaced = res.linesReplaced
