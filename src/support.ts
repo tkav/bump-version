@@ -15,16 +15,17 @@ export const replacePattern = async (p: {
     pattern: RegExp
     replacer: RegExp
     value: string
-    explicit?: string
+    explicit: string
     ignore?: string[]
 }) => {
-    const { pattern, replacer, value, explicit='**', ignore = [] } = p
+    const { pattern, replacer, value, explicit, ignore = [] } = p
     const files = await glob(explicit, {
         gitignore: true,
         //expandDirectories: true,
         filesOnly: true,
         ignore: ['node_modules', ...ignore],
     })
+    console.log('explicit support.ts = ' + explicit)
     console.log('scanned files')
     const linesReplaced: LineReplaced[] = []
     files.forEach((pathName) => {

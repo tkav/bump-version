@@ -46,6 +46,7 @@ async function run() {
     console.log('writing new version file')
     fs.writeFileSync(versionPath, newVersion, 'utf8')
     let linesReplaced: LineReplaced[] = []
+    console.log('explicit = ' + explicit)
     if (explicit != '**') {
         const explicit = versionPath
     }
