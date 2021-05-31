@@ -15,6 +15,9 @@ import { createAnnotations } from './createAnnotation'
 async function run() {
     const githubToken =
         core.getInput('github_token') || process.env.GITHUB_TOKEN
+    const explicit =
+        core
+            [.getInput('explicit')] || []
     const ignore =
         core
             .getInput('ignore')
@@ -53,6 +56,7 @@ async function run() {
             replacer: versionRegex,
             value: newVersion,
             ignore,
+            explicit,
         })
         linesReplaced = res.linesReplaced
     } else {
@@ -62,6 +66,7 @@ async function run() {
             replacer: versionRegex,
             value: newVersion,
             ignore,
+            explicit,
         })
         linesReplaced = res.linesReplaced
     }
