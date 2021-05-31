@@ -52,6 +52,9 @@ async function run() {
     }
     if (prefix) {
         console.log(`replacing version patterns below [bump if ${prefix}]`)
+        console.log('explicit = ' + explicit)
+        console.log('test')
+
         const pattern = new RegExp('\\[bump if ' + prefix + '\\]')
         const res = await replacePattern({
             pattern,
@@ -63,6 +66,9 @@ async function run() {
         linesReplaced = res.linesReplaced
     } else {
         console.log(`replacing version patterns below [bump]`)
+        console.log('explicit = ' + explicit)
+        console.log('test')
+        
         const res = await replacePattern({
             pattern: /\[bump\]/,
             replacer: versionRegex,
